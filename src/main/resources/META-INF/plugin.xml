@@ -1,0 +1,25 @@
+<idea-plugin>
+    <id>com.github.jiangxch.cocollect</id>
+    <name>code-collect</name>
+    <vendor email="568282497@qq.com" url="https://github.com/jiangxch">To my github</vendor>
+
+    <description><![CDATA[
+    Collect Common code snippets.Save time looking for code<br>
+    ]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.github.jiangxch.cocollect.config.CocollectConfig"/>
+
+        <toolWindow id="cocollect" secondary="false" icon="AllIcons.General.Modified" anchor="right"
+                    factoryClass="com.github.jiangxch.cocollect.plugin.CocollectToolWindowFactory"/>
+    </extensions>
+</idea-plugin>
