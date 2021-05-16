@@ -12,11 +12,23 @@ import java.util.List;
  */
 public interface CodeSegmentDao {
     void insert(CodeSegmentEntity codeSegmentEntity);
-    void updateById(CodeSegmentEntity codeSegmentEntity,String codeSegmentId);
+
+    void updateById(CodeSegmentEntity codeSegmentEntity, String codeSegmentId);
+
     void deleteById(String codeSegmentId);
+
     List<CodeSegmentEntity> listAll();
 
+    CodeSegmentDao fileCodeSegmentDao = new FileCodeSegmentDaoImpl();
+
     static CodeSegmentDao getIns() {
-        return new FileCodeSegmentDaoImpl();
+        return fileCodeSegmentDao;
     }
+
+    void importData(List<CodeSegmentEntity> entities);
+
+    List<CodeSegmentEntity> listByCategoryId(String categoryId);
+
+    void deleteAll();
+
 }

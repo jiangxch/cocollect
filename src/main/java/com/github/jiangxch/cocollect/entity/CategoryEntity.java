@@ -8,6 +8,9 @@ import java.io.Serializable;
  */
 public class CategoryEntity implements Serializable {
     private String id;
+    /**
+     * 不能为null
+     */
     private String pid;
     private String name;
 

@@ -15,11 +15,7 @@ import java.util.Map;
  * @author: jiangxch
  * @date: 2021/5/13 下午11:52
  */
-public class CategoryCurdWindow {
-    private static CategoryCurdWindow INS = new CategoryCurdWindow();
-
-    private static final int WIDTH = 700;
-    private static final int HEIGHT = 800;
+public class CategoryCurdWindow extends BaseWindow{
 
     private JPanel root;
     private JTextField categoryNameTextField;
@@ -32,13 +28,11 @@ public class CategoryCurdWindow {
 
 
     private CategoryEntity updateCategoryEntity;
+    private CocollectToolWindow cocollectToolWindow;
 
-    private CategoryCurdWindow() {
+    public CategoryCurdWindow(CocollectToolWindow cocollectToolWindow) {
+        this.cocollectToolWindow = cocollectToolWindow;
         initUi();
-    }
-
-    public static CategoryCurdWindow getIns() {
-        return INS;
     }
 
     private void initUi() {
@@ -65,42 +59,28 @@ public class CategoryCurdWindow {
                 return;
             }
             if (updateCategoryEntity != null) {
-                CategoryDao.getIns().updateById(updateCategoryEntity.getId(),text);
+                CategoryDao.getIns().updateById(text,updateCategoryEntity.getId());
             } else {
                 CategoryDao.getIns().insert(text,selectedItem.getId());
             }
+            jframe.setVisible(false);
+            cocollectToolWindow.refreshTree();
         });
     }
 
-    private Map<String, CategoryEntity> idCategoryEntityMap = new HashMap<>();
 
-    private void refreshCategoryComboBox() {
-        idCategoryEntityMap.clear();
-        parentCategoryComboBox.removeAllItems();
-        List<CategoryEntity> categoryEntities = CategoryDao.getIns().listAll();
-        CategoryEntity root = new CategoryEntity();
-        root.setId(GlobalConstant.CATEGORY_ROOT_ID);
-        root.setName(GlobalConstant.CATEGORY_ROOT_NAME);
-        categoryEntities.add(root);
-        idCategoryEntityMap.put(GlobalConstant.CATEGORY_ROOT_ID, root);
-        for (CategoryEntity categoryEntity : categoryEntities) {
-            parentCategoryComboBox.addItem(categoryEntity);
-            idCategoryEntityMap.put(categoryEntity.getId(), categoryEntity);
-        }
-    }
 
-    public void showInsertWindow() {
-        refreshCategoryComboBox();
+    public void showInsertWindow(CategoryEntity parentCategoryEntity) {
+        refreshCategoryComboBox(parentCategoryComboBox,parentCategoryEntity.getId());
         categoryNameTextField.setText(null);
         updateCategoryEntity = null;
         jframe.setVisible(true);
     }
 
-    public void showUpdateWindow(CategoryEntity selectCategoryEntity) {
-        refreshCategoryComboBox();
-        updateCategoryEntity = selectCategoryEntity;
-        parentCategoryComboBox.setSelectedItem(selectCategoryEntity.getPid());
-        categoryNameTextField.setText(null);
+    public void showUpdateWindow(CategoryEntity updateCategoryEntity) {
+        refreshCategoryComboBox(parentCategoryComboBox,updateCategoryEntity.getPid());
+        this.updateCategoryEntity = updateCategoryEntity;
+        categoryNameTextField.setText(updateCategoryEntity.getName());
         jframe.setVisible(true);
     }
 }

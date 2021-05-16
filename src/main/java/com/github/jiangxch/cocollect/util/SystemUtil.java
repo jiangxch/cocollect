@@ -6,6 +6,6 @@ package com.github.jiangxch.cocollect.util;
  */
 public class SystemUtil {
     public static String getUserDir() {
-        return System.getProperty("user.dir");
+        return System.getProperty("user.home");
     }
 }

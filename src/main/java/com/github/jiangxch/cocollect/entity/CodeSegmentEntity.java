@@ -8,6 +8,9 @@ import java.io.Serializable;
  */
 public class CodeSegmentEntity implements Serializable {
     private String id;
+    /**
+     * 不能为null
+     */
     private String categoryId;
     private String name;
     private String code;

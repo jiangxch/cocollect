@@ -18,6 +18,14 @@ import java.io.File;
 @State(name = "cocollect",storages = {@Storage("cocollect.xml")})
 public class CocollectConfig implements PersistentStateComponent<CocollectConfig> {
 
+    public String getCocollectRootCategoryPath() {
+        return cocollectRootCategoryPath;
+    }
+
+    public String getCocollectDaoDataCategoryPath() {
+        return cocollectDaoDataCategoryPath;
+    }
+
     /**
      * cocollect持久化文件的根目录路径，默认为 用户家目录下面的 .cocollect目录,
      * 目录下结构
@@ -30,7 +38,9 @@ public class CocollectConfig implements PersistentStateComponent<CocollectConfig
      *
      * 不包含 {@link CocollectConfig} 该配置持久化目录路径由IDEA控制
      */
-    private String COCOLLECT_ROOT_CATEGORY_PATH = SystemUtil.getUserDir() + File.separator + ".cocollect";
+    private String cocollectRootCategoryPath = SystemUtil.getUserDir() + File.separator + ".cocollect";
+
+    private String cocollectDaoDataCategoryPath = this.cocollectRootCategoryPath + File.separator + "data";
 
 
     @Nullable
