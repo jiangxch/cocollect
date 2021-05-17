@@ -31,4 +31,11 @@
         <toolWindow id="cocollect" secondary="false" icon="AllIcons.General.Modified" anchor="right"
                     factoryClass="com.github.jiangxch.cocollect.plugin.CocollectToolWindowFactory"/>
     </extensions>
+    <actions>
+        <action id="QuickInsertCodeSegmentAction"
+                class="com.github.jiangxch.cocollect.plugin.action.QuickInsertCodeSegmentAction"
+                text="quickInsertCodeSegmentAction" description="quick insert code segment">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+    </actions>
 </idea-plugin>

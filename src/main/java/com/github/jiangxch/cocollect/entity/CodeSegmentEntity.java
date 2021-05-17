@@ -17,7 +17,13 @@ public class CodeSegmentEntity implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        String treeNodeName = name;
+        if (!code.contains(" ")) {// 方法签名或者类全名
+            treeNodeName += "-j";
+        } else {
+            treeNodeName += "-c";
+        }
+        return treeNodeName;
     }
 
     public String getId() {

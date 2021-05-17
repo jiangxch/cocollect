@@ -7,23 +7,22 @@ import com.github.jiangxch.cocollect.dao.CodeSegmentDao;
 import com.github.jiangxch.cocollect.entity.CategoryEntity;
 import com.github.jiangxch.cocollect.entity.CodeSegmentEntity;
 import com.github.jiangxch.cocollect.util.SwingUtil;
+import com.github.jiangxch.cocollect.util.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
-import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +49,11 @@ public class CocollectToolWindow {
     private JFrame jframe;
 
     private CategoryCurdWindow categoryCurdWindow = new CategoryCurdWindow(this);
+
+    public CodeSegmentCurdWindow getCodeSegmentCurdWindow() {
+        return codeSegmentCurdWindow;
+    }
+
     private CodeSegmentCurdWindow codeSegmentCurdWindow = new CodeSegmentCurdWindow(this);
 
     private DefaultMutableTreeNode selectTreeNode = null;
@@ -65,10 +69,40 @@ public class CocollectToolWindow {
     private void init() {
         initButton();
         initJTree();
+        initListener();
         jframe = new JFrame("cocollect");
         jframe.pack();
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setVisible(false);
+    }
+
+    private void initListener() {
+        categoryCodeTree.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (' ' == e.getKeyChar()) { // 空格
+                    Object userObject = getUserObject();
+                    if (!(userObject instanceof CodeSegmentEntity)) {
+                        SwingUtil.showTips(tipsLabel,"请选择代码片段节点", 2000);
+                        return;
+                    }
+                    // 复制代码片段到剪贴板
+                    CodeSegmentEntity select = (CodeSegmentEntity) userObject;
+                    SystemUtil.copyText2Clipboard(select.getCode());
+                    SwingUtil.showTips(tipsLabel,"复制成功", 1500);
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     private void initJTree() {

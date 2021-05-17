@@ -6,6 +6,8 @@ import com.github.jiangxch.cocollect.entity.CodeSegmentEntity;
 import com.github.jiangxch.cocollect.util.SwingUtil;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * @author: jiangxch
@@ -37,6 +39,7 @@ public class CodeSegmentCurdWindow extends BaseWindow {
     private void initUi() {
         initButton();
         initCodeTextArea();
+        initListen();
 
         jframe = new JFrame("代码片段");
         jframe.setContentPane(root);
@@ -44,6 +47,28 @@ public class CodeSegmentCurdWindow extends BaseWindow {
         jframe.setLocationRelativeTo(null);
         jframe.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         jframe.setVisible(false);
+    }
+
+    private void initListen() {
+        codeSegmentNameTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if (13 == keyCode) {// 回车
+                    confirm();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     private void initCodeTextArea() {
@@ -56,6 +81,12 @@ public class CodeSegmentCurdWindow extends BaseWindow {
     public void showCreateCodeSegmentWindow(CategoryEntity categoryEntity) {
         this.updateCodeSegmentEntity = null;
         fillUiData(categoryEntity.getId(),null,null);
+        jframe.setVisible(true);
+    }
+
+    public void showCreateCodeSegmentWindowForQuickInsert(String text) {
+        this.updateCodeSegmentEntity = null;
+        fillUiData(null,null,text);
         jframe.setVisible(true);
     }
 
@@ -73,39 +104,43 @@ public class CodeSegmentCurdWindow extends BaseWindow {
 
     private void initButton() {
         confirmButton.addActionListener(e -> {
-            CategoryEntity selectedCategoryEntity = (CategoryEntity) categoryComboBox.getSelectedItem();
-            if (selectedCategoryEntity == null || selectedCategoryEntity.getId() == null) {
-                SwingUtil.showTipsForNotNull(categoryLabel);
-                return;
-            }
-            String codeSegmentCategoryId = selectedCategoryEntity.getId();
-
-            String codeSegmentName = codeSegmentNameTextField.getText();
-            if (codeSegmentName == null) {
-                SwingUtil.showTipsForNotNull(codeSegmentNameLabel);
-                return;
-            }
-            String code = codeTextArea.getText();
-            if (code == null) {
-                SwingUtil.showTipsForNotNull(codeLabel);
-                return;
-            }
-            if (updateCodeSegmentEntity == null) {
-                CodeSegmentEntity codeSegmentEntity = new CodeSegmentEntity();
-                codeSegmentEntity.setCategoryId(codeSegmentCategoryId);
-                codeSegmentEntity.setName(codeSegmentName);
-                codeSegmentEntity.setCode(code);
-
-                CodeSegmentDao.getIns().insert(codeSegmentEntity);
-            } else {
-                CodeSegmentEntity codeSegmentEntity = new CodeSegmentEntity();
-                codeSegmentEntity.setCategoryId(codeSegmentCategoryId);
-                codeSegmentEntity.setName(codeSegmentName);
-                codeSegmentEntity.setCode(code);
-                CodeSegmentDao.getIns().updateById(codeSegmentEntity, updateCodeSegmentEntity.getId());
-            }
-            jframe.setVisible(false);
-            cocollectToolWindow.refreshTree();
+            confirm();
         });
+    }
+
+    private void confirm() {
+        CategoryEntity selectedCategoryEntity = (CategoryEntity) categoryComboBox.getSelectedItem();
+        if (selectedCategoryEntity == null || selectedCategoryEntity.getId() == null) {
+            SwingUtil.showTipsForNotNull(categoryLabel);
+            return;
+        }
+        String codeSegmentCategoryId = selectedCategoryEntity.getId();
+
+        String codeSegmentName = codeSegmentNameTextField.getText();
+        if (codeSegmentName == null) {
+            SwingUtil.showTipsForNotNull(codeSegmentNameLabel);
+            return;
+        }
+        String code = codeTextArea.getText();
+        if (code == null) {
+            SwingUtil.showTipsForNotNull(codeLabel);
+            return;
+        }
+        if (updateCodeSegmentEntity == null) {
+            CodeSegmentEntity codeSegmentEntity = new CodeSegmentEntity();
+            codeSegmentEntity.setCategoryId(codeSegmentCategoryId);
+            codeSegmentEntity.setName(codeSegmentName);
+            codeSegmentEntity.setCode(code);
+
+            CodeSegmentDao.getIns().insert(codeSegmentEntity);
+        } else {
+            CodeSegmentEntity codeSegmentEntity = new CodeSegmentEntity();
+            codeSegmentEntity.setCategoryId(codeSegmentCategoryId);
+            codeSegmentEntity.setName(codeSegmentName);
+            codeSegmentEntity.setCode(code);
+            CodeSegmentDao.getIns().updateById(codeSegmentEntity, updateCodeSegmentEntity.getId());
+        }
+        jframe.setVisible(false);
+        cocollectToolWindow.refreshTree();
     }
 }
