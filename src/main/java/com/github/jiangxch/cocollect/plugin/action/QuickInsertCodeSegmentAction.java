@@ -15,7 +15,6 @@ public class QuickInsertCodeSegmentAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
         Editor editor = e.getData(PlatformDataKeys.EDITOR);
         if (editor == null)
             return;
