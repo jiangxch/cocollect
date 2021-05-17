@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.jiangxch.cocollect</id>
-    <name>code-collect</name>
-    <vendor email="568282497@qq.com" url="https://github.com/jiangxch">To my github</vendor>
+    <name>cocollect</name>
+    <vendor email="568282497@qq.com" url="https://github.com/jiangxch/cocollect">To my github</vendor>
 
     <description><![CDATA[
     Collect Common code snippets.Save time looking for code<br>
@@ -15,6 +15,15 @@
         <!-- Add your extensions here -->
     </extensions>
 
+    <change-notes><![CDATA[
+      <p>1.0.0-SNAPSHOT</p>
+      <ul>
+        <li>1.支持目录和代码片段操作</li>
+        <li>2.支持数据导入导出</li>
+      </ul>
+    ]]></change-notes>
+
+    <idea-version since-build="171.3780.107"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.jiangxch.cocollect.config.CocollectConfig"/>
