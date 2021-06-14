@@ -4,7 +4,18 @@
     <vendor email="568282497@qq.com" url="https://github.com/jiangxch/cocollect">To my github</vendor>
 
     <description><![CDATA[
-    Collect Common code snippets.Save time looking for code<br>
+        <tag>Cocollect,Code Easy,easy,code tools</tag>
+        <h3>English:</h3>
+        <ul>
+        <li>Code fragment storage plugin developed based on IntelliJ IDEA.</li>
+        <li>Open the plug-in and select the required code snippet, and copy it with the shortcut key "" (space).</li>
+        <li>For detailed usage, please click "To my github" above.</li>
+        </ul>
+        <h3>中文：</h3>
+        <ul>
+        <li>基于IntelliJ IDEA开发的代码片段存储插件。</li>
+        <li>打开插件选中所需的代码片段，通过快捷键“ ”（空格）复制。</li>
+        <li>详细用法请点击上方的“To my github”。</li>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
